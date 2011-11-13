@@ -35,7 +35,7 @@ public class Hex : MonoBehaviour
 		
 		GetComponent<MeshFilter>().mesh = mesh;
 	}
-	
+#if false	
 	void Update()
 	{
 		Vector3 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -47,9 +47,6 @@ public class Hex : MonoBehaviour
 		
 		Vector2 newCartPoint, snappedHexPoint = new Vector2(Mathf.Round(hexPoint.x), Mathf.Round(hexPoint.y));
 		HexPointToCartesianPoint(ref snappedHexPoint, out newCartPoint);
-
-		if(Input.GetMouseButton(0))
-			transform.position = new Vector3(newCartPoint.x, 0.0f, newCartPoint.y);
 	}
 	
 	void OnGUI()
@@ -57,18 +54,18 @@ public class Hex : MonoBehaviour
 		GUILayout.Label(String.Format("{0:0.00}, {1:0.00}", cartPoint.x, cartPoint.y));
 		GUILayout.Label(String.Format("{0:0.00}, {1:0.00}", hexPoint.x, hexPoint.y));
 	}
-	
-	static void CartesianPointToHexPoint(ref Vector2 pointIn, out Vector2 pointOut)
+#endif	
+	public static void CartesianPointToHexPoint(ref Vector2 pointIn, out Vector2 pointOut)
 	{
 		// | 0.577350 0.000000 |
-		// |-0.288675 0.500000 |
-		pointOut = new Vector2(0.577350f * pointIn.x, -0.288675f * pointIn.x + 0.5f * pointIn.y);
+		// | 0.288675 0.500000 |
+		pointOut = new Vector2(0.577350f * pointIn.x, 0.288675f * pointIn.x + 0.5f * pointIn.y);
 	}
 	
-	static void HexPointToCartesianPoint(ref Vector2 pointIn, out Vector2 pointOut)
+	public static void HexPointToCartesianPoint(ref Vector2 pointIn, out Vector2 pointOut)
 	{
 		// | 1.732051 0.000000 |
-		// | 1.000000 2.000000 |
-		pointOut = new Vector2(1.732051f * pointIn.x, pointIn.x + 2.0f * pointIn.y);
+		// |-1.000000 2.000000 |
+		pointOut = new Vector2(1.732051f * pointIn.x, -pointIn.x + 2.0f * pointIn.y);
 	}
 }
