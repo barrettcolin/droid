@@ -7,15 +7,19 @@ public class HexGrid : MonoBehaviour
 	
 	void Start()
 	{
-		int side = 10;
-		for(int r = 0; r < side; r++)
+		int rows = 32;
+		int cols = 64;
+		var solid = Droid.DungeonGenerator.Generate((int)System.DateTime.Now.Ticks, rows, cols);
+		
+		for(int r = 0; r < rows; r++)
 		{
-			for(int c = 0; c < side; c++)
+			for(int c = 0; c < cols; c++)
 			{
 				Vector2 hpos = new Vector2(c, r), pos;
 				Hex.HexPointToCartesianPoint(ref hpos, out pos);
 				
-				Instantiate(hex, new Vector3(pos.x, 0, pos.y), Quaternion.identity);
+				if(solid[r, c] == 0)
+					Instantiate(hex, new Vector3(pos.x, 0, pos.y), Quaternion.identity);
 			}
 		}	
 	}
